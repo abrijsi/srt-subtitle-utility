@@ -43,7 +43,7 @@ Run the merge script to group files from your source folder. This script combine
 
 ```bash
 node merge_batch.js
-
+```
 ### Step 2: AI Translation with Gemini
 Once the files are merged, proceed with the AI translation:
 
@@ -61,3 +61,4 @@ After saving the `hasil_xx.txt` files, run the batch splitter. This script reads
 ```bash
 node split_batch.js
 
+♥
