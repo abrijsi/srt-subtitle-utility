@@ -26,7 +26,7 @@ It addresses the common "context limit" issue in AI translation by batching mult
 
 1.  Clone the repository:
     ```bash
-    git clone [https://github.com/abrijsi/srt-subtitle-utility.git](https://github.com/abrijsi/srt-subtitle-utility.git)
+    git clone https://github.com/abrijsi/srt-subtitle-utility.git
     cd srt-subtitle-utility
     ```
 2.  Install dependencies:
