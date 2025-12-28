@@ -1,0 +1,1292 @@
+=== MULAI BATCH ===
+
+<<<<PATH::..\Downloads\Learn_Bug_Bounty_Hunting_&_Web_Security_Testing_From_Scratch\Learn Bug Bounty Hunting & Web Security Testing From Scratch\04 - Path  Directory Traversal\003 Bypassing Hard-coded Extensions_en.srt>>>>
+1
+00:00:00,290 --> 00:00:03,890
+kita akan melanjutkan dengan kerentanan path traversal atau directory traversal.
+
+2
+00:00:03,890 --> 00:00:07,320
+Yang lagi-lagi termasuk dalam kerentanan kontrol akses yang rusak.
+
+3
+00:00:07,320 --> 00:00:08,310
+Kerentanan,
+
+4
+00:00:08,320 --> 00:00:10,400
+Saya menghabiskan banyak waktu untuk ini dan saya
+
+5
+00:00:10,400 --> 00:00:14,120
+menunjukkan banyak contoh karena kerentanan ini sangat,
+
+6
+00:00:14,120 --> 00:00:15,150
+sangat umum.
+
+7
+00:00:15,160 --> 00:00:17,610
+Oleh karena itu ketika Anda melakukan pentest atau bug hunting,
+
+8
+00:00:17,620 --> 00:00:20,380
+peluang Anda untuk menemukannya sangat sangat tinggi.
+
+9
+00:00:21,340 --> 00:00:24,950
+Jadi saya akan menunjukkan contoh lain di mana dalam skenario kehidupan nyata Anda mungkin
+
+10
+00:00:24,950 --> 00:00:28,050
+berpikir target tidak rentan karena jika
+
+11
+00:00:28,050 --> 00:00:29,920
+Anda mencoba eksploit yang kami tunjukkan sebelumnya,
+
+12
+00:00:29,930 --> 00:00:30,970
+mereka tidak akan berhasil
+
+13
+00:00:31,690 --> 00:00:34,350
+karena target menggunakan semacam penyaringan,
+
+14
+00:00:34,350 --> 00:00:36,210
+itu sedikit lebih membatasi,
+
+15
+00:00:36,220 --> 00:00:39,040
+tapi Anda akan melihat bagaimana kita akan berhasil memuat
+
+16
+00:00:39,040 --> 00:00:42,520
+path di luar batas kita dan mengeksploitasi kerentanan.
+
+17
+00:00:43,050 --> 00:00:46,750
+Jadi situs web target terlihat sangat mirip dengan yang pernah kita lihat sebelumnya.
+
+18
+00:00:46,760 --> 00:00:50,180
+Sekali lagi kita akan memuat produk dan saya
+
+19
+00:00:50,180 --> 00:00:54,120
+harus menyalakan interceptor saya dan memuatnya lagi
+
+20
+00:00:54,700 --> 00:00:56,900
+dan kita akan membiarkan yang ini lewat dan yang
+
+21
+00:00:56,900 --> 00:00:59,690
+berikutnya adalah yang rentan mengirimkannya ke repeater.
+
+22
+00:00:59,690 --> 00:01:02,830
+Jadi ini hampir identik dengan yang pernah kita lihat sebelumnya.
+
+23
+00:01:02,840 --> 00:01:05,349
+Itu sebabnya saya melewatinya dengan cepat lagi.
+
+24
+00:01:05,360 --> 00:01:11,490
+Um jika kita mengirim ini, render, Anda mendapatkan gambar dan kemudian jika kita mendapatkan gambar lain,
+
+25
+00:01:11,490 --> 00:01:14,260
+Saya bahkan tidak akan mencoba mendapatkan tautan untuk gambar lain,
+
+26
+00:01:14,260 --> 00:01:16,090
+Saya akan menebak nama gambar lain.
+
+27
+00:01:16,380 --> 00:01:20,980
+Dan seperti yang Anda lihat kita dapat memuat gambar lain di server yang sama.
+
+28
+00:01:20,990 --> 00:01:23,350
+Oleh karena itu bagi saya itu akan memberi tahu saya, oke,
+
+29
+00:01:23,350 --> 00:01:27,630
+saya harus menghabiskan lebih banyak waktu untuk ini dan melihat apakah saya dapat menemukan bug dan kerentanan.
+
+30
+00:01:28,240 --> 00:01:35,780
+Sekarang jika kita pergi dan mencoba yang dasar yang kita coba sebelumnya, jadi ini ETC password,
+
+31
+00:01:35,790 --> 00:01:38,400
+itu tidak akan berhasil seperti yang Anda lihat.
+
+32
+00:01:38,410 --> 00:01:42,730
+Dan kemudian jika kita mencoba kembali juga sebanyak yang kita inginkan
+
+33
+00:01:45,490 --> 00:01:48,070
+dan mengirimnya, itu masih tidak akan berhasil.
+
+34
+00:01:48,080 --> 00:01:52,170
+Jadi pada tahap ini Anda mungkin berpikir bahwa target tidak rentan dan melanjutkan
+
+35
+00:01:52,180 --> 00:01:55,400
+tetapi masih banyak yang harus Anda coba dan saya sebenarnya akan menyertakan
+
+36
+00:01:55,400 --> 00:01:58,740
+lembar contekan untuk hal-hal yang dapat Anda coba dan saya akan menunjukkan kepada Anda di
+
+37
+00:01:58,740 --> 00:02:02,460
+akhir tip untuk pro atau jika Anda memiliki pro yang dapat Anda gunakan.
+
+38
+00:02:02,460 --> 00:02:06,400
+Tapi semua yang kita lakukan secara manual sekarang bekerja dengan versi komunitas juga.
+
+39
+00:02:06,910 --> 00:02:10,660
+Dan pada dasarnya apa yang kita coba lakukan sekarang kita mencoba memuat etc
+
+40
+00:02:10,660 --> 00:02:14,310
+password dan itu tidak memuat dan kita berpikir mungkin ada beberapa penyaringan,
+
+41
+00:02:14,320 --> 00:02:17,160
+mungkin ada beberapa pembatasan di sana yang
+
+42
+00:02:17,160 --> 00:02:20,170
+mencegah kita memuat file ini.
+
+43
+00:02:20,180 --> 00:02:25,240
+Sekarang kembali ke request asli yang sedang dikirim, Anda dapat melihat bahwa
+
+44
+00:02:25,880 --> 00:02:29,830
+ia meminta gambar yang diakhiri dengan dot JPG.
+
+45
+00:02:29,990 --> 00:02:35,960
+Dan di repeater ketika kita meminta gambar sebelumnya kita dapat memuat gambar lain
+
+46
+00:02:35,970 --> 00:02:38,470
+tetapi untuk beberapa alasan ketika kita memuat file kita
+
+47
+00:02:38,470 --> 00:02:42,370
+tidak dapat memuat file jadi itu memberi tahu saya mungkin
+
+48
+00:02:42,520 --> 00:02:48,080
+aplikasi web target mengharapkan apa pun yang saya muat di sini sebagai gambar,
+
+49
+00:02:48,090 --> 00:02:49,370
+bukan file.
+
+50
+00:02:50,020 --> 00:02:54,360
+Jadi masalahnya adalah jika saya melakukan dot JPG di sini,
+
+51
+00:02:54,530 --> 00:02:59,770
+tidak ada file seperti itu yang disebut etc password dot JPG. Jadi itu tidak berguna bagi saya.
+
+52
+00:02:59,780 --> 00:03:02,360
+Tapi itu akan melewati filter jika itu masalahnya.
+
+53
+00:03:03,090 --> 00:03:09,630
+Jadi apa yang bisa saya lakukan, saya bisa menggunakan null byte. Jadi persentase 00 adalah null byte.
+
+54
+00:03:09,710 --> 00:03:12,910
+Itu diterjemahkan menjadi null byte dan Anda akan tahu ini jika Anda telah melakukan
+
+55
+00:03:12,910 --> 00:03:16,830
+pemrograman C apa pun dan pada dasarnya itu akan mengakhiri
+
+56
+00:03:16,840 --> 00:03:20,360
+string ini atau array karakter ini.
+
+57
+00:03:20,910 --> 00:03:22,640
+Jadi ketika filter membaca ini,
+
+58
+00:03:22,640 --> 00:03:25,230
+ia akan membaca teks lengkap dan akan memeriksa apakah
+
+59
+00:03:25,230 --> 00:03:27,950
+ia diakhiri dengan dot JPG dan ia akan meneruskannya.
+
+60
+00:03:28,120 --> 00:03:32,150
+Tetapi kemudian ketika itu benar-benar dieksekusi dan diproses,
+
+61
+00:03:32,160 --> 00:03:36,990
+pemrosesan akan berakhir ketika membaca null byte, persentase 00.
+
+62
+00:03:37,150 --> 00:03:39,680
+Oleh karena itu tidak masalah apa yang kita ketik setelahnya,
+
+63
+00:03:39,770 --> 00:03:45,020
+itu sebenarnya akan melanjutkan dan memuat file yang ada di direktori ini.
+
+64
+00:03:45,360 --> 00:03:49,940
+Jadi Anda bisa menganggap ini mirip dengan ketika kita menambahkan komentar ke injeksi SQL dan
+
+65
+00:03:49,940 --> 00:03:53,730
+kerentanan lain ketika kita ingin memberi tahu server
+
+66
+00:03:53,730 --> 00:03:57,470
+untuk mengabaikan semua yang muncul setelah payload kita.
+
+67
+00:03:58,210 --> 00:04:03,760
+Jadi biarkan saya menunjukkannya kepada Anda dalam kehidupan nyata, kita hanya akan melakukan persentase 00
+
+68
+00:04:04,850 --> 00:04:06,320
+dan kita akan mengirimkannya
+
+69
+00:04:07,290 --> 00:04:08,570
+pergi ke raw
+
+70
+00:04:08,780 --> 00:04:12,760
+dan sempurna seperti yang Anda lihat kita dapat memuat ETC
+
+71
+00:04:12,760 --> 00:04:17,529
+Password dan sekali lagi dalam bug bounty hunt. Ini cukup untuk menampilkan dampak.
+
+72
+00:04:17,540 --> 00:04:19,490
+Jadi yang harus mereka lakukan hanyalah menyertakan ini
+
+73
+00:04:19,490 --> 00:04:22,260
+dalam laporan Anda dan Anda harus diberikan bounty.
+
+<<<<PATH::..\Downloads\Learn_Bug_Bounty_Hunting_&_Web_Security_Testing_From_Scratch\Learn Bug Bounty Hunting & Web Security Testing From Scratch\04 - Path  Directory Traversal\002 Bypassing Absolute Path Restriction_en.srt>>>>
+1
+00:00:00,240 --> 00:00:03,060
+sekarang terkadang mengeksploitasi target,
+
+2
+00:00:03,060 --> 00:00:07,370
+seperti yang baru saja saya tunjukkan tidak akan berhasil tetapi target masih rentan.
+
+3
+00:00:07,380 --> 00:00:12,200
+Jadi biarkan saya menunjukkan contohnya lagi, kita akan menyalakan interceptor kita,
+
+4
+00:00:12,210 --> 00:00:14,140
+Saya sudah tahu bahwa ini rentan
+
+5
+00:00:14,270 --> 00:00:15,350
+dalam skenario kehidupan nyata.
+
+6
+00:00:15,350 --> 00:00:18,920
+Anda ingin menguji semuanya dan Anda tahu, melihat perilaku normalnya.
+
+7
+00:00:18,930 --> 00:00:20,490
+Dan sekali lagi uji produk.
+
+8
+00:00:20,490 --> 00:00:24,300
+I d saya akan meneruskannya karena saya tahu yang berikutnya adalah yang rentan.
+
+9
+00:00:24,510 --> 00:00:27,180
+Ini adalah end point yang sama dan parameter yang sama,
+
+10
+00:00:27,190 --> 00:00:29,180
+kita akan mengirimkannya ke repeater.
+
+11
+00:00:29,310 --> 00:00:33,040
+Tapi sekarang jika kita mencoba exploit yang kita coba sebelumnya,
+
+12
+00:00:33,040 --> 00:00:35,410
+jadi jika kita hanya mencoba memuat ETC.
+
+13
+00:00:35,460 --> 00:00:36,420
+Password
+
+14
+00:00:37,880 --> 00:00:41,150
+Dan mengirimkannya, Anda akan melihat bahwa tidak ada yang akan dimuat.
+
+15
+00:00:41,260 --> 00:00:44,670
+Sekarang dalam banyak kasus Anda tidak akan melihat error yang mengatakan tidak ada file seperti itu,
+
+16
+00:00:44,680 --> 00:00:48,530
+Anda mungkin hanya akan mendapatkan 400 atau itu hanya tidak akan dimuat sama sekali.
+
+17
+00:00:48,540 --> 00:00:51,880
+Tapi Anda hanya akan tahu bahwa itu tidak berhasil untuk Anda.
+
+18
+00:00:52,100 --> 00:00:52,560
+Sekarang,
+
+19
+00:00:52,560 --> 00:00:56,870
+kita tahu path file ada di sistem dan itulah mengapa kita menggunakan path file tersebut,
+
+20
+00:00:56,870 --> 00:00:59,160
+path yang selalu ada di sistem target.
+
+21
+00:00:59,170 --> 00:01:01,440
+Jadi kita tahu bahwa itu pasti ada.
+
+22
+00:01:01,770 --> 00:01:05,459
+Jadi pada tahap ini ada dua kemungkinan.
+
+23
+00:01:05,470 --> 00:01:09,370
+Entah target tidak rentan atau target rentan
+
+24
+00:01:09,370 --> 00:01:11,810
+tetapi tidak memuat apa yang Anda inginkan karena alasan tertentu.
+
+25
+00:01:11,850 --> 00:01:15,040
+Dan itulah mengapa kita biasanya biarkan saya mematikan interceptor,
+
+26
+00:01:15,070 --> 00:01:17,510
+pergi ke produk lain,
+
+27
+00:01:18,180 --> 00:01:23,180
+buka gambar di tab baru dapatkan nama filenya. Jadi itu 36 dot JPG.
+
+28
+00:01:23,190 --> 00:01:27,570
+Dan kemudian kita kembali ke repeater dan kita mencoba memuat gambar itu lagi.
+
+29
+00:01:27,580 --> 00:01:33,000
+Jadi kita menggunakan request yang sama ke end point yang sama. Dan jika kita mengirim itu
+
+30
+00:01:33,690 --> 00:01:36,390
+Anda dapat melihat bahwa kita dapat memuat gambar lain.
+
+31
+00:01:36,420 --> 00:01:37,490
+Jadi lagi-lagi,
+
+32
+00:01:37,490 --> 00:01:41,200
+itu membuat saya berpikir bahwa itu hanya memungkinkan saya
+
+33
+00:01:41,200 --> 00:01:44,510
+untuk memuat file dari dalam direktori tertentu.
+
+34
+00:01:44,520 --> 00:01:47,360
+Direktori itu bisa disebut. Images bisa disebut IMG.
+
+35
+00:01:47,360 --> 00:01:48,850
+Kami tidak benar-benar tahu apa namanya,
+
+36
+00:01:48,860 --> 00:01:51,790
+tetapi memungkinkan kita untuk mengubah nilai apa pun yang muncul
+
+37
+00:01:51,790 --> 00:01:55,050
+setelah nama direktori dan memuat file-file ini kepada
+
+38
+00:01:55,050 --> 00:01:58,290
+saya dan oleh karena itu saya akan memilih untuk menghabiskan lebih banyak waktu dengan
+
+39
+00:01:58,290 --> 00:02:02,330
+end point tersebut karena kemungkinan besar rentan.
+
+40
+00:02:03,100 --> 00:02:06,990
+Sekarang ketika kita memasukkan etc password, itu tidak menerimanya.
+
+41
+00:02:07,000 --> 00:02:07,490
+Oleh karena itu,
+
+42
+00:02:07,490 --> 00:02:09,949
+Saya akan pergi dengan opsi lain yaitu
+
+43
+00:02:09,949 --> 00:02:13,480
+itu rentan tetapi mungkin memiliki beberapa batasan atau filter.
+
+44
+00:02:13,490 --> 00:02:20,050
+Jadi hal berikutnya yang akan saya coba alih-alih meletakkan path absolut, yaitu ETC
+
+45
+00:02:20,880 --> 00:02:25,390
+password. Jadi saya katakan path absolut karena kita mulai dengan forward slash.
+
+46
+00:02:25,390 --> 00:02:26,700
+Jadi kita mulai dari
+
+47
+00:02:26,860 --> 00:02:33,010
+basis sistem file. Apa yang bisa saya lakukan adalah saya bisa kembali jadi dengan asumsi saya ada di images,
+
+48
+00:02:33,110 --> 00:02:39,190
+Saya bisa kembali 1 2 3 direktori dan kemudian memuat ETC saya.
+
+49
+00:02:40,150 --> 00:02:44,560
+Jadi jika Anda ingin kembali naik satu direktori dalam sistem file,
+
+50
+00:02:44,570 --> 00:02:47,820
+Anda cukup mengetik dot dot di Linux.
+
+51
+00:02:48,740 --> 00:02:52,630
+Jadi apa yang akan saya lakukan adalah saya akan kembali naik satu direktori karena saya tidak tahu di mana saya berada.
+
+52
+00:02:52,640 --> 00:02:56,600
+Jadi saya akan kembali naik satu direktori dan mencoba memuat etc password.
+
+53
+00:02:56,620 --> 00:03:00,380
+Jika tidak berhasil, saya akan kembali direktori lain dan mencoba memuat btc password.
+
+54
+00:03:00,390 --> 00:03:03,950
+Jika tidak berhasil, saya akan kembali satu lagi dan mencoba memuat et si password.
+
+55
+00:03:04,140 --> 00:03:04,720
+Sekarang.
+
+56
+00:03:04,730 --> 00:03:05,460
+Dalam banyak kasus,
+
+57
+00:03:05,460 --> 00:03:09,240
+orang hanya meletakkan sebanyak mungkin direktori naik sehingga mereka kembali
+
+58
+00:03:09,240 --> 00:03:11,490
+ke basis dan mungkin bahkan kembali sedikit lebih jauh,
+
+59
+00:03:11,500 --> 00:03:13,370
+tetapi Anda tidak dapat kembali lebih dari basis.
+
+60
+00:03:13,380 --> 00:03:17,970
+Jadi mereka hanya menaruh sebanyak mungkin dot dot dan kemudian mereka memuat file yang mereka inginkan.
+
+61
+00:03:17,980 --> 00:03:21,660
+Tapi saya hanya akan melakukannya satu per satu dan sebenarnya lebih suka melakukannya dengan cara itu.
+
+62
+00:03:21,670 --> 00:03:22,920
+Itu hanya lebih masuk akal.
+
+63
+00:03:22,930 --> 00:03:27,760
+Saya suka membuat jumlah modifikasi paling sedikit pada eksploitasi saya sebanyak mungkin.
+
+64
+00:03:27,770 --> 00:03:31,950
+Jadi saya akan mengirimkannya seperti ini, itu tidak berhasil. Saya akan menambahkan
+
+65
+00:03:32,710 --> 00:03:36,320
+dot dot lagi, kirim lagi. Tidak berhasil.
+
+66
+00:03:36,320 --> 00:03:39,850
+Jadi saya pada dasarnya naik satu direktori setiap kali saya mengetik dot dot.
+
+67
+00:03:40,770 --> 00:03:45,550
+Jadi mari kita kembali sekali lagi dan kita mengirimnya dan kali ini tidak dirender.
+
+68
+00:03:45,550 --> 00:03:49,820
+Jadi mudah-mudahan kita memuat sesuatu dan jika kita pergi ke raw seperti yang Anda lihat,
+
+69
+00:03:49,830 --> 00:03:53,850
+kita memiliki semua pengguna yang terdaftar di sistem target.
+
+70
+00:03:54,040 --> 00:03:58,570
+Dan karena kita dapat memuat file di luar batas kita,
+
+71
+00:03:58,630 --> 00:04:01,680
+itu berarti ini adalah kerentanan kontrol akses yang rusak
+
+72
+00:04:01,690 --> 00:04:06,040
+dan itu termasuk dalam path Traversal atau directory traversal
+
+73
+00:04:06,040 --> 00:04:09,310
+karena kita pada dasarnya bergerak melalui sistem file dan
+
+74
+00:04:09,310 --> 00:04:12,820
+memuat file dan direktori dari dalam sistem file.
+
+75
+00:04:12,830 --> 00:04:15,480
+Ini memungkinkan kita untuk mengakses path dan direktori
+
+76
+00:04:15,490 --> 00:04:17,290
+yang seharusnya tidak kita miliki aksesnya.
+
+77
+00:04:17,750 --> 00:04:21,110
+Jadi dalam pentest, Anda harus menyertakan ini dalam laporan Anda.
+
+78
+00:04:21,120 --> 00:04:25,540
+Data yang Anda dapatkan di sini akan sangat berguna bagi Anda karena dalam pentest,
+
+79
+00:04:25,550 --> 00:04:28,220
+informasi kecil dapat menyatu dan memungkinkan Anda untuk
+
+80
+00:04:28,220 --> 00:04:31,010
+mengeksploitasi sistem lebih lanjut dan dalam bug bounty,
+
+81
+00:04:31,010 --> 00:04:33,390
+Anda sebenarnya tidak perlu melangkah lebih jauh dari ini.
+
+82
+00:04:33,450 --> 00:04:35,320
+Ini cukup untuk menampilkan dampak.
+
+83
+00:04:35,330 --> 00:04:38,050
+Jadi Anda bisa menggunakan informasi ini dalam laporan Anda
+
+84
+00:04:38,060 --> 00:04:40,580
+dan Anda pasti akan diberikan bounty.
+
+<<<<PATH::..\Downloads\Learn_Bug_Bounty_Hunting_&_Web_Security_Testing_From_Scratch\Learn Bug Bounty Hunting & Web Security Testing From Scratch\04 - Path  Directory Traversal\001 Introduction to Path Traversal Vulnerabilities & Basic Discovery_en.srt>>>>
+1
+00:00:00,000 --> 00:00:04,570
+Di kelas hari ini, kita akan berbicara tentang directory atau path traversal.
+
+2
+00:00:04,590 --> 00:00:04,920
+Sekarang,
+
+3
+00:00:04,920 --> 00:00:06,960
+kita sudah membahas kerentanan kontrol akses yang rusak
+
+4
+00:00:06,960 --> 00:00:09,460
+sebelumnya dan kita mengatakan bahwa
+
+5
+00:00:09,460 --> 00:00:15,020
+94% situs web menurut China 10 rentan terhadap kerentanan ini.
+
+6
+00:00:15,030 --> 00:00:18,550
+Jadi jika Anda melakukan bug hunting atau pen testing,
+
+7
+00:00:18,560 --> 00:00:21,950
+maka peluang Anda menemukan kerentanan ini sangat, sangat tinggi.
+
+8
+00:00:22,300 --> 00:00:26,340
+Dan kita mengatakan di kelas sebelumnya, ketika kita berbicara tentang kontrol akses yang rusak,
+
+9
+00:00:26,350 --> 00:00:29,040
+definisinya adalah bahwa mereka memungkinkan kita
+
+10
+00:00:29,040 --> 00:00:32,570
+untuk mengakses atau memodifikasi informasi di luar batas kita.
+
+11
+00:00:32,580 --> 00:00:34,860
+Itu hal utamanya. Itulah definisinya.
+
+12
+00:00:34,870 --> 00:00:39,240
+Jadi jika Anda menemukan bug apa pun yang memungkinkan Anda memodifikasi informasi di luar batas Anda,
+
+13
+00:00:39,250 --> 00:00:41,880
+maka itu termasuk dalam kontrol akses yang rusak.
+
+14
+00:00:42,340 --> 00:00:43,330
+Seperti yang Anda lihat,
+
+15
+00:00:43,340 --> 00:00:47,190
+istilah ini sangat luas dan banyak subkategori lain
+
+16
+00:00:47,200 --> 00:00:51,210
+atau sub bug atau kerentanan dapat termasuk dalam kategori ini.
+
+17
+00:00:51,300 --> 00:00:55,870
+Dan contohnya adalah directory atau path traversal.
+
+18
+00:00:56,470 --> 00:00:59,370
+Jadi ide dari bug atau kerentanan ini,
+
+19
+00:00:59,370 --> 00:01:03,450
+mereka pada dasarnya memungkinkan Anda untuk mengakses path atau lokasi di
+
+20
+00:01:03,450 --> 00:01:06,810
+server web target yang tidak diizinkan untuk Anda akses.
+
+21
+00:01:06,820 --> 00:01:08,950
+Jadi kita mengatakan kontrol akses yang rusak,
+
+22
+00:01:08,950 --> 00:01:11,960
+memungkinkan Anda mengakses atau memodifikasi informasi di luar batas Anda.
+
+23
+00:01:12,290 --> 00:01:17,690
+Dan directory atau path traversal memungkinkan Anda mengakses path atau file yang
+
+24
+00:01:17,700 --> 00:01:21,250
+berada di luar batas Anda yang seharusnya tidak Anda akses atau lihat.
+
+25
+00:01:21,730 --> 00:01:24,580
+Jadi memperbesar sistem file di Linux,
+
+26
+00:01:24,810 --> 00:01:28,100
+pada dasarnya Anda memiliki forward slash secara harfiah hanya
+
+27
+00:01:28,100 --> 00:01:30,290
+sebuah forward slash tanpa teks setelahnya.
+
+28
+00:01:30,340 --> 00:01:34,640
+Itu adalah root atau direktori dasar Anda di sistem file Anda
+
+29
+00:01:34,820 --> 00:01:38,600
+dan kemudian di dalamnya Anda akan memiliki sejumlah direktori, misalnya,
+
+30
+00:01:38,600 --> 00:01:42,210
+Anda akan memiliki var, Anda akan memiliki home di mana Anda memiliki data pengguna,
+
+31
+00:01:42,500 --> 00:01:45,080
+Anda akan memiliki ETC di mana Anda akan memiliki
+
+32
+00:01:45,080 --> 00:01:49,120
+file konfigurasi untuk berbagai program yang diinstal pada sistem.
+
+33
+00:01:49,130 --> 00:01:52,460
+Dan Anda jelas akan memiliki banyak direktori lain dan kemudian di dalamnya
+
+34
+00:01:52,460 --> 00:01:55,680
+Anda dapat memiliki subdirektori lain dan Anda bahkan dapat membuat direktori Anda sendiri.
+
+35
+00:01:55,680 --> 00:01:57,730
+Anda semua telah melihatnya dan kita semua telah melakukannya.
+
+36
+00:01:58,370 --> 00:01:58,630
+Sekarang.
+
+37
+00:01:58,630 --> 00:02:02,410
+Ketika Anda menginstal server web di server atau komputer,
+
+38
+00:02:02,420 --> 00:02:07,660
+Anda pada dasarnya mendefinisikan path tertentu di mana file situs web akan disimpan.
+
+39
+00:02:07,830 --> 00:02:12,750
+Jadi path itu biasanya var www. Dan terkadang Anda akan memiliki html di dalamnya.
+
+40
+00:02:12,750 --> 00:02:15,860
+Terkadang Anda akan memiliki nama pengguna di sini di suatu tempat.
+
+41
+00:02:15,870 --> 00:02:20,460
+Tetapi ide utamanya adalah Anda akan mendefinisikan path dalam sistem file Anda sehingga
+
+42
+00:02:20,460 --> 00:02:25,920
+berisi file situs web dan ketika pengguna mengakses situs web,
+
+43
+00:02:25,930 --> 00:02:26,740
+mereka disajikan.
+
+44
+00:02:26,740 --> 00:02:30,330
+File yang termasuk dalam direktori itu.
+
+45
+00:02:30,860 --> 00:02:34,760
+Jadi direktori ini akan disebut web root. Sebenarnya bisa di mana saja.
+
+46
+00:02:34,770 --> 00:02:36,420
+Tidak harus di path ini.
+
+47
+00:02:36,430 --> 00:02:39,790
+Tapi ini adalah salah satu path default di mana web root berada.
+
+48
+00:02:40,580 --> 00:02:43,530
+Jadi path ini akan berisi file situs web
+
+49
+00:02:43,530 --> 00:02:46,310
+dan ketika seseorang mengakses situs web Anda misalnya
+
+50
+00:02:46,450 --> 00:02:48,610
+dot com atau zsecurity dot com.
+
+51
+00:02:48,880 --> 00:02:53,060
+File yang termasuk dalam direktori ini akan disajikan kepada pengguna
+
+52
+00:02:53,530 --> 00:02:53,850
+sekarang.
+
+53
+00:02:53,850 --> 00:02:58,870
+Kerentanan directory atau path traversal memungkinkan kita untuk keluar dari
+
+54
+00:02:58,880 --> 00:03:02,770
+path ini dan memuat file dari lokasi lain di server
+
+55
+00:03:02,980 --> 00:03:08,320
+atau mungkin bahkan memuat file di dalam server ini tetapi Anda tidak diizinkan untuk melihat.
+
+56
+00:03:08,320 --> 00:03:11,850
+Jadi mungkin memuat kode sumber atau file sensitif
+
+57
+00:03:11,860 --> 00:03:14,950
+yang tidak langsung terlihat melalui U.
+
+58
+00:03:14,950 --> 00:03:18,250
+RL Bar dengan hanya menempatkan lokasi situs web.
+
+59
+00:03:19,370 --> 00:03:21,590
+Jadi mari kita lanjutkan dengan contoh sederhana.
+
+60
+00:03:22,250 --> 00:03:24,770
+Kita memiliki situs web normal seperti biasa.
+
+61
+00:03:24,770 --> 00:03:28,320
+Dan Anda harus menguji setiap fungsionalitas tunggal seperti biasa seperti yang saya katakan.
+
+62
+00:03:28,330 --> 00:03:31,650
+Tapi kita akan melanjutkan dan memuat produk karena
+
+63
+00:03:31,650 --> 00:03:34,640
+saya tahu itulah yang rentan di situs web.
+
+64
+00:03:36,200 --> 00:03:38,130
+Dan seperti yang Anda lihat Anda mendapatkan gambar produk,
+
+65
+00:03:38,130 --> 00:03:40,910
+deskripsi dan tombol kembali dan seperti biasa Anda ingin
+
+66
+00:03:40,910 --> 00:03:43,280
+menguji semuanya apa pun parameter yang Anda miliki di U.
+
+67
+00:03:43,280 --> 00:03:44,640
+RL dan semua itu.
+
+68
+00:03:44,650 --> 00:03:50,270
+Dan seperti biasa kita biasanya melihat perilaku normal situs web sebelum kita merusaknya.
+
+69
+00:03:50,280 --> 00:03:54,180
+Dan kemudian kita akan menyalakan interceptor kita memuat situs web
+
+70
+00:03:54,180 --> 00:03:57,740
+lagi dan mulai menganalisis data yang sedang dikirim.
+
+71
+00:03:58,460 --> 00:04:01,520
+Jadi kita dapat melihat kita memiliki parameter ID produk nomor tiga.
+
+72
+00:04:01,520 --> 00:04:04,180
+Sekali lagi itu harus diuji tetapi saya akan melewatkannya sekarang
+
+73
+00:04:04,180 --> 00:04:06,740
+karena itu bukan kerentanan yang ingin saya tunjukkan kepada Anda.
+
+74
+00:04:06,740 --> 00:04:07,790
+Jadi saya akan meneruskan
+
+75
+00:04:08,880 --> 00:04:12,040
+dan request berikutnya yang sedang dikirim adalah yang
+
+76
+00:04:12,040 --> 00:04:15,410
+ingin saya fokuskan karena itu adalah yang rentan.
+
+77
+00:04:15,420 --> 00:04:18,680
+Seperti biasa Anda dapat memodifikasi data dan di sini dengan memodifikasi
+
+78
+00:04:18,690 --> 00:04:22,310
+apa pun yang muncul setelah tanda sama dengan seperti yang kita katakan sebelumnya.
+
+79
+00:04:22,320 --> 00:04:26,600
+Atau Anda bisa memfilternya di sini menggunakan atribut request dan
+
+80
+00:04:26,600 --> 00:04:30,390
+parameter request dan mengumpulkan ganda di sini dan memodifikasi data.
+
+81
+00:04:31,180 --> 00:04:34,810
+Jadi saya lebih suka melakukannya di sini langsung dalam teks biasa.
+
+82
+00:04:34,820 --> 00:04:39,440
+Dan jika Anda melihat di sini Anda akan melihat bahwa Anda memiliki
+
+83
+00:04:39,440 --> 00:04:42,670
+request yang sedang dikirim ke end point yang disebut image.
+
+84
+00:04:42,910 --> 00:04:46,580
+Parameternya disebut nama file dan Anda sebenarnya dapat melihat
+
+85
+00:04:46,580 --> 00:04:50,100
+nama file yang tepat setelah ini dengan ekstensi gambar.
+
+86
+00:04:50,110 --> 00:04:52,200
+Jadi kita punya lima dot JPG.
+
+87
+00:04:52,210 --> 00:04:54,180
+Jadi langsung saja saat Anda melihat ini,
+
+88
+00:04:54,230 --> 00:04:58,080
+Saya akan mengirimkannya ke repeater saya sehingga saya dapat mengirim request ini dan bermain
+
+89
+00:04:58,080 --> 00:05:02,400
+dengan mereka dengan mudah tanpa harus selalu menekan enter di sini dan kemudian menganalisisnya di sini,
+
+90
+00:05:02,500 --> 00:05:03,970
+mematikan interceptor saya.
+
+91
+00:05:03,970 --> 00:05:08,350
+Kita pergi ke repeater dan lagi kita mengirim request normal sebelum kita bermain dengannya.
+
+92
+00:05:08,690 --> 00:05:12,000
+Dan jika kita menjalankannya di sana Anda dapat melihat kita benar-benar mendapatkan gambar.
+
+93
+00:05:12,010 --> 00:05:16,540
+Jadi ini mungkin gambar yang disebut lima dot JPG.
+
+94
+00:05:16,550 --> 00:05:20,210
+Karena request ini meminta sesuatu dari
+
+95
+00:05:20,210 --> 00:05:21,960
+end point yang disebut image.
+
+96
+00:05:21,970 --> 00:05:25,500
+Dan itu meneruskan nilai yaitu lima dot J
+
+97
+00:05:25,500 --> 00:05:28,150
+p G ke parameter yang disebut nama file.
+
+98
+00:05:28,490 --> 00:05:31,310
+Jadi kita bisa menebak bahwa kita memiliki gambar yang disebut lima dot
+
+99
+00:05:31,310 --> 00:05:36,680
+JPG di server web target yang disimpan di suatu tempat dalam sistem file.
+
+100
+00:05:36,690 --> 00:05:41,240
+Mungkin di direktori yang disebut images. Itu hanya tebakan. Mungkin tidak.
+
+101
+00:05:41,240 --> 00:05:42,210
+Itu tidak terlalu penting.
+
+102
+00:05:42,220 --> 00:05:46,670
+Tapi kita punya gambarnya dan itu disebut lima dot j p G dan sedang dimuat di sini.
+
+103
+00:05:47,020 --> 00:05:50,550
+Sekarang, itu masih hanya hipotesis. Kita tidak yakin bahwa ini benar.
+
+104
+00:05:50,560 --> 00:05:55,030
+Jadi apa yang akan saya lakukan pada tahap ini sebelum saya mencoba mengeksploitasi ini atau mendapatkan informasi dari
+
+105
+00:05:55,030 --> 00:05:57,790
+server atau mengakses informasi yang seharusnya tidak saya
+
+106
+00:05:57,790 --> 00:05:59,690
+akses sebelum saya melakukan itu semua.
+
+107
+00:05:59,700 --> 00:06:00,730
+Seperti yang selalu saya katakan,
+
+108
+00:06:00,740 --> 00:06:05,340
+Saya mencoba menjaga semuanya sesederhana mungkin ketika saya menguji dan kemudian
+
+109
+00:06:05,350 --> 00:06:09,450
+menambahkan ke eksploitasi saya atau ke bug saya sehingga jika ada yang gagal,
+
+110
+00:06:09,460 --> 00:06:11,820
+Saya tahu apa yang gagal dan kemudian saya bisa memperbaikinya.
+
+111
+00:06:12,430 --> 00:06:16,560
+Jadi sebelum saya mencoba mengeksploitasi apa pun, saya akan kembali ke beranda,
+
+112
+00:06:16,570 --> 00:06:18,840
+Saya hanya akan memuat produk lain
+
+113
+00:06:19,510 --> 00:06:23,980
+dan kita punya gambar di sini. Jadi saya akan membukanya di tab baru
+
+114
+00:06:25,170 --> 00:06:30,050
+Dan kita dapat melihat nama file gambar ini adalah 31.JPG.
+
+115
+00:06:31,080 --> 00:06:34,390
+Jadi saya akan kembali ke sini dan alih-alih memuat lima,
+
+116
+00:06:34,390 --> 00:06:36,500
+Saya hanya ingin melihat apakah saya bisa memuat
+
+117
+00:06:36,510 --> 00:06:40,030
+gambar lain dari server hanya dengan memberikan nama gambar.
+
+118
+00:06:40,040 --> 00:06:44,280
+Jadi kita taruh 31 dot JPG di sini. Kita akan kirim.
+
+119
+00:06:44,410 --> 00:06:48,180
+Dan sempurna seperti yang Anda lihat, kita benar-benar berhasil memuat gambar ini.
+
+120
+00:06:48,190 --> 00:06:53,220
+Jadi pada dasarnya kita dapat mengakses file masih dalam web root kita,
+
+121
+00:06:53,250 --> 00:06:54,750
+tapi itu sangat bagus.
+
+122
+00:06:54,750 --> 00:06:57,480
+Itu satu langkah menuju tujuan kita.
+
+123
+00:06:58,090 --> 00:07:02,220
+Langkah selanjutnya adalah mencoba memuat file pada sistem target,
+
+124
+00:07:02,230 --> 00:07:04,920
+tapi itu di luar web root saya.
+
+125
+00:07:04,930 --> 00:07:09,130
+Jadi di suatu tempat dari home atau ETC atau di mana saja di dalam server.
+
+126
+00:07:09,740 --> 00:07:10,110
+Sekarang,
+
+127
+00:07:10,110 --> 00:07:12,520
+cara terbaik untuk melakukan ini adalah memuat
+
+128
+00:07:12,520 --> 00:07:16,420
+file yang ada secara default pada sistem target.
+
+129
+00:07:16,840 --> 00:07:20,840
+Jadi file dan home mungkin bervariasi tergantung pada nama pengguna dan
+
+130
+00:07:20,840 --> 00:07:24,310
+tergantung pada apa yang ingin disimpan pengguna di direktori home mereka.
+
+131
+00:07:24,330 --> 00:07:30,860
+Tetapi ada file konfigurasi yang ada di setiap komputer Linux dan
+
+132
+00:07:30,860 --> 00:07:33,810
+oleh karena itu kita tahu pasti bahwa itu ada di target.
+
+133
+00:07:33,960 --> 00:07:37,430
+Jadi jika kita memuatnya dan itu benar-benar dimuat untuk kita di sini,
+
+134
+00:07:37,440 --> 00:07:40,330
+kita akan tahu bahwa kita dapat mengakses data
+
+135
+00:07:40,330 --> 00:07:44,080
+di luar batas kita dan oleh karena itu kita telah menemukan kerentanan kontrol akses
+
+136
+00:07:44,090 --> 00:07:48,520
+yang rusak dan karena itu memungkinkan kita untuk memuat file atau
+
+137
+00:07:48,530 --> 00:07:51,690
+path di dalam server target di luar web root,
+
+138
+00:07:51,700 --> 00:07:53,900
+maka itu adalah path atau directory.
+
+139
+00:07:53,900 --> 00:07:55,350
+Kerentanan traversal.
+
+140
+00:07:56,370 --> 00:08:00,240
+Sekarang ada banyak file default di Linux yang bisa Anda muat.
+
+141
+00:08:00,250 --> 00:08:05,600
+Salah satunya adalah ETC password. Jadi izinkan saya menunjukkan kepada Anda sebelum saya memuatnya di sini, saya punya
+
+142
+00:08:05,790 --> 00:08:07,760
+komputer di sini, mesin ubuntu
+
+143
+00:08:08,460 --> 00:08:11,270
+dan saya hanya akan pergi ke manajer file saya,
+
+144
+00:08:11,270 --> 00:08:14,770
+Saya hanya ingin menunjukkan file itu agar jelas bagi Anda dan saya akan
+
+145
+00:08:14,770 --> 00:08:18,690
+pergi ke bilah path saya dan saya hanya akan pergi ke ETC.
+
+146
+00:08:19,340 --> 00:08:23,350
+Dan jika saya hanya mengetik P. A. S. S. W. D.
+
+147
+00:08:23,360 --> 00:08:27,510
+Anda akan melihat bahwa saya memiliki file bernama password dan jika saya
+
+148
+00:08:27,510 --> 00:08:32,690
+klik dua kali file ini saya akan memiliki pengguna yang terdaftar di server ini.
+
+149
+00:08:33,990 --> 00:08:38,549
+Jadi kita akan kembali ke sini dan kita hanya akan mencoba memuat file itu.
+
+150
+00:08:38,558 --> 00:08:43,620
+Jadi kita akan mengganti 31 dot JPG ini. Dengan path lengkap di mana E. T. C.
+
+151
+00:08:43,620 --> 00:08:44,950
+Password disimpan.
+
+152
+00:08:45,170 --> 00:08:47,700
+Dan oleh karena itu saya tidak benar-benar menebak apa pun dengan ini.
+
+153
+00:08:47,740 --> 00:08:51,610
+Saya hanya meletakkan nama file yang ada di semua manfaat server dimuat.
+
+154
+00:08:51,610 --> 00:08:53,070
+Maka targetnya rentan.
+
+155
+00:08:54,120 --> 00:08:55,940
+Jadi saya akan menekan enter
+
+156
+00:08:56,690 --> 00:08:58,310
+dan seperti yang Anda lihat di sana dan mereka akan
+
+157
+00:08:58,310 --> 00:09:00,640
+tidak mendapatkan apa-apa karena itu sebenarnya hanya file teks,
+
+158
+00:09:00,640 --> 00:09:01,660
+bukan gambar.
+
+159
+00:09:01,670 --> 00:09:06,780
+Jadi jika kita menggunakan raw Anda akan melihat kita dapat mengakses konten
+
+160
+00:09:06,790 --> 00:09:11,450
+file ini dan kita dapat melihat semua pengguna yang terdaftar di sistem target.
+
+161
+00:09:11,590 --> 00:09:16,770
+Jadi tidak hanya ini adalah pengungkapan informasi besar-besaran dalam skenario bug bounty,
+
+162
+00:09:16,790 --> 00:09:19,340
+ini cukup untuk menampilkan dampak.
+
+163
+00:09:19,340 --> 00:09:23,100
+Jadi secara harfiah mampu memuat file ini atau file lain di luar web
+
+164
+00:09:23,100 --> 00:09:26,080
+root cukup untuk menampilkan dampak dan oleh karena itu
+
+165
+00:09:26,080 --> 00:09:29,190
+Anda harus diberikan bounty untuk temuan ini
