@@ -60,5 +60,3 @@ After saving the `hasil_xx.txt` files, run the batch splitter. This script reads
 
 ```bash
 node split_batch.js
-
-♥
